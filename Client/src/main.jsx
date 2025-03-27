@@ -2,7 +2,9 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import Root from  './routes/Root.jsx';
-import Index from './Index.jsx'
+import Index from './Index.jsx';
+import Dashboard from './routes/Dashboard.jsx';
+import './App.css';
 
 const router = createBrowserRouter([
   {
@@ -12,6 +14,10 @@ const router = createBrowserRouter([
       {
         index:true,
         element: <Index />,
+      },
+      {
+        path: '/dashboard',
+        element: <Dashboard />,
       }
     ]
   }
