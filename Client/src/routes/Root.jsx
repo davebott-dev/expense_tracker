@@ -1,44 +1,51 @@
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 
 const Root = () => {
+  const [title, setTitle] = useState("");
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.innerText);
+  }
 
   return (
     <>
       <header>
         <div>
-          <div>Tab 1</div>
-          <div>Tab 2</div>
+          <div><MonetizationOnIcon sx={{fontSize: 45}} /></div>
+          <div>{title}</div>
         </div>
-        <div>Tab 3</div>
+        <div><AutorenewIcon sx={{fontSize:45}}/></div>
       </header>
       <nav>
         <div>
           <img src="#" alt="" height="30" width="30"/>
-          <NavLink to="dashboard">Dashboard</NavLink>
+          <NavLink to="dashboard" onClick = {handleTitleChange}>Dashboard</NavLink>
         </div>
         <div>
         <img src="#" alt="" height="30" width="30"/>
-        <NavLink>Transactions</NavLink>
+        <NavLink onClick = {handleTitleChange}>Transactions</NavLink>
         </div>
         <div>
         <img src="#" alt="" height="30" width="30"/>
-        <NavLink>Accounts</NavLink>
+        <NavLink onClick = {handleTitleChange}>Accounts</NavLink>
         </div>
         <div>
         <img src="#" alt="" height="30" width="30"/>
-          <NavLink>Reports</NavLink>
+          <NavLink onClick = {handleTitleChange}>Reports</NavLink>
         </div>
         <div>
         <img src="#" alt="" height="30" width="30"/>
-          <NavLink>Budget</NavLink>
+          <NavLink onClick = {handleTitleChange}>Budget</NavLink>
         </div>
         <div>
         <img src="#" alt="" height="30" width="30"/>
-          <NavLink>Settings</NavLink>
+          <NavLink onClick = {handleTitleChange}>Settings</NavLink>
         </div>
       </nav>
-      <Outlet />
+      <main><Outlet/></main>
     </>
   );
 };
