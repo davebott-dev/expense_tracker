@@ -65,7 +65,17 @@ main {
   color: rgba(0,0,0,.87);
   background: #F8F8F9
 }
-
+.welcome>div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-left: 1.7em;
+}
+.welcome>div:nth-child(2) div {
+  font-size: 1.15rem;
+  font-weight: bold;
+}
 nav{
   grid-column: 1;
   grid-row: 2 / 11;
@@ -104,18 +114,19 @@ body {
 }
 
 button {
-  border-radius: 8px;
+  border-radius: .28571429rem;
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  padding: 11px 30px 11px 30px;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+  outline: none;
+  color: rgba(0,0,0,.6);
+  text-align: center;
+  transition: background 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  background: #c0c1c2;
 }
 button:focus,
 button:focus-visible {
@@ -131,6 +142,6 @@ button:focus-visible {
     color: #747bff;
   }
   button {
-    background-color: #f9f9f9;
+    background: #e0e1e2 none;
   }
 }
