@@ -19,7 +19,6 @@ html, body, #root {
 html {
   background: #cce2ff;
 }
-
 #root {
   text-align: center;
   display: grid;
@@ -53,6 +52,15 @@ main {
   justify-content: center;
   align-items: center;
 }
+
+main>div {
+  width: 100%;
+  max-width: 1000px;
+  margin: 2em auto;
+  padding: 1em;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: .28571429rem;
+}
 .welcome {
   display: flex;
   flex-direction: row;  
@@ -75,6 +83,18 @@ main {
 .welcome>div:nth-child(2) div {
   font-size: 1.15rem;
   font-weight: bold;
+}
+.widgets{
+  border: 1px solid rgba(34,36,38,.22);
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.widgets>div:first-child {
+ width: 40%;
+}
+.widgets>div:nth-child(2) {
+  width: 60%;
 }
 nav{
   grid-column: 1;

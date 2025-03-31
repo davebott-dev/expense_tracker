@@ -12,7 +12,15 @@ const Dashboard = () => {
           <button>Logout</button>
         </div>
       </div>
-      <div></div>
+      <div className = "widgets">
+        <div>
+          <div>Net Worth Widget</div>
+        </div>
+        <div>
+          <div>New Transaction Widget</div>
+          <div>Recent Transaction Widget</div>
+        </div>
+      </div>
     </>
   );
 };  
