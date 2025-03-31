@@ -1,6 +1,5 @@
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
@@ -89,12 +88,67 @@ main>div {
   width: 100%;
   display: flex;
   flex-direction: row;
+  gap: 2.5rem;
 }
 .widgets>div:first-child {
  width: 40%;
 }
 .widgets>div:nth-child(2) {
   width: 60%;
+}
+h3 {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 0;
+}
+.section_header, h3 {
+  cursor: pointer
+}
+.section_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.account_widget{ 
+  display: flex;
+  border: 1px solid #d4d4d5;
+  border-radius: .28571429rem;
+  flex-direction: column;
+}
+.cash_account, .bank_account, .credit_account {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em 0.75em;
+  background: #f3f3f3;
+  cursor: pointer;
+}
+.cash_account:hover, .bank_account:hover, .credit_account:hover {
+  background: #e0e1e2;
+}
+.cash_account{
+  border-bottom: 1px solid #d4d4d5;
+}
+.bank_account{
+  border-bottom: 1px solid #d4d4d5;
+  border-top: 1px solid #d4d4d5
+}
+.transaction_type {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #d4d4d5;
+  justify-content: space-around;
+  padding: 1em 0.75em;
+}
+
+.transaction_widget{
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #d4d4d5;
+  border-radius: .28571429rem;
 }
 nav{
   grid-column: 1;
