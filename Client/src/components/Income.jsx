@@ -1,7 +1,6 @@
 const Income = () => {
     return (
         <div className="transaction_form">
-        <h3>Record Income</h3>
         <form>
             <label htmlFor="source">Source:</label>
             <input type="text" id="source" name="source" required />

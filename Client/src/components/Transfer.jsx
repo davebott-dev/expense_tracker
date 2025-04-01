@@ -1,7 +1,6 @@
 const Transfer = ({ children }) => {
     return (
         <div className="transfer">
-        <h2>Transfer</h2>
         <form>
             <label htmlFor="fromAccount">From Account:</label>
             <select id="fromAccount" name="fromAccount">

@@ -12,17 +12,18 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
 }
 html {
   background: #cce2ff;
 }
 #root {
-  text-align: center;
   display: grid;
-  grid-template-columns: repeat(10 , 1fr);
-  grid-template-rows:  62px repeat(9, 1fr);
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: 62px repeat(9, 1fr);
 }
 header {
   grid-column: 1 / -1;
@@ -30,17 +31,18 @@ header {
   background: #3f51b5;
   color: white;
   border-bottom: 1px solid rgba(34, 36, 38, 0.15);
-  box-shadow: 0 2px 5px 0 rgba(34, 36, 38, 0.15), 0 2px 18px 0 rgba(34, 36, 38, 0.17);
+  box-shadow: 0 2px 5px 0 rgba(34, 36, 38, 0.15),
+    0 2px 18px 0 rgba(34, 36, 38, 0.17);
 }
-header>div:first-child>div:nth-child(2) {
+header > div:first-child > div:nth-child(2) {
   font-size: 1.4rem;
 }
 
-header>div:first-child {
+header > div:first-child {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;  
+  align-items: center;
   width: 14%;
 }
 main {
@@ -52,48 +54,48 @@ main {
   align-items: center;
 }
 
-main>div {
+main > div {
   width: 100%;
   max-width: 1000px;
   margin: 2em auto;
   padding: 1em;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  border-radius: .28571429rem;
+  border-radius: 0.28571429rem;
 }
 .welcome {
   display: flex;
-  flex-direction: row;  
+  flex-direction: row;
   align-items: center;
   width: 100%;
   margin: 1em auto;
   padding: 1em;
-  box-shadow: inset 0 0 0 1px rgba(34,36,38,.22),0 0 0 0 transparent;
-  border-radius: .28571429rem;
-  color: rgba(0,0,0,.87);
-  background: #F8F8F9
+  box-shadow: inset 0 0 0 1px rgba(34, 36, 38, 0.22), 0 0 0 0 transparent;
+  border-radius: 0.28571429rem;
+  color: rgba(0, 0, 0, 0.87);
+  background: #f8f8f9;
 }
-.welcome>div:nth-child(2) {
+.welcome > div:nth-child(2) {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   margin-left: 1.7em;
 }
-.welcome>div:nth-child(2) div {
+.welcome > div:nth-child(2) div {
   font-size: 1.15rem;
   font-weight: bold;
 }
-.widgets{
-  border: 1px solid rgba(34,36,38,.22);
+.widgets {
+  border: 1px solid rgba(34, 36, 38, 0.22);
   width: 100%;
   display: flex;
   flex-direction: row;
   gap: 2.5rem;
 }
-.widgets>div:first-child {
- width: 40%;
+.widgets > div:first-child {
+  width: 40%;
 }
-.widgets>div:nth-child(2) {
+.widgets > div:nth-child(2) {
   width: 60%;
 }
 h3 {
@@ -103,21 +105,24 @@ h3 {
   font-weight: 500;
   padding: 0;
 }
-.section_header, h3 {
-  cursor: pointer
+.section_header,
+h3 {
+  cursor: pointer;
 }
 .section_header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.account_widget{ 
+.account_widget {
   display: flex;
   border: 1px solid #d4d4d5;
-  border-radius: .28571429rem;
+  border-radius: 0.28571429rem;
   flex-direction: column;
 }
-.cash_account, .bank_account, .credit_account {
+.cash_account,
+.bank_account,
+.credit_account {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -126,15 +131,17 @@ h3 {
   background: #f3f3f3;
   cursor: pointer;
 }
-.cash_account:hover, .bank_account:hover, .credit_account:hover {
+.cash_account:hover,
+.bank_account:hover,
+.credit_account:hover {
   background: #e0e1e2;
 }
-.cash_account{
+.cash_account {
   border-bottom: 1px solid #d4d4d5;
 }
-.bank_account{
+.bank_account {
   border-bottom: 1px solid #d4d4d5;
-  border-top: 1px solid #d4d4d5
+  border-top: 1px solid #d4d4d5;
 }
 .transaction_type {
   display: flex;
@@ -143,14 +150,48 @@ h3 {
   justify-content: space-around;
   padding: 1em 0.75em;
 }
-
-.transaction_widget{
+.expense {
+  padding: 1rem;
+}
+.expense_form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+.expense_form > div:first-child,
+.expense_form > div:nth-child(2),
+.expense_form > div:first-child > div {
+  display: flex;
+  flex-direction: row;
+}
+.expense_form > div:first-child > div:first-child, .expense_form > div:nth-child(2) > div:first-child {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.expense_form > div:first-child > div:nth-child(2) {
+  width: 25%;
+  
+}
+.transaction_widget {
   display: flex;
   flex-direction: column;
   border: 1px solid #d4d4d5;
-  border-radius: .28571429rem;
+  border-radius: 0.28571429rem;
 }
-nav{
+input, select {
+  border: 1px solid rgba(34,36,38,.15);
+  font-size: 1em;
+  box-shadow: inset 0 0 0 0 transparent;
+  background: #fff;
+  border-radius: .28571429rem;
+  padding: .67857143em 1em;
+}
+.expense_button {
+  background: #3f51b5;
+  color: #fff;
+}
+nav {
   grid-column: 1;
   grid-row: 2 / 11;
   display: flex;
@@ -161,9 +202,9 @@ nav{
   padding: 13px 16px;
   font-size: 1rem;
   line-height: 1.4285em;
-  color: rgba(0,0,0,.87);
+  color: rgba(0, 0, 0, 0.87);
 }
-nav>div{
+nav > div {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -177,7 +218,8 @@ a {
 a:hover {
   color: #535bf2;
 }
-header, header>div {
+header,
+header > div {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -188,14 +230,14 @@ body {
 }
 
 button {
-  border-radius: .28571429rem;
+  border-radius: 0.28571429rem;
   border: 1px solid transparent;
   padding: 11px 30px 11px 30px;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
   outline: none;
-  color: rgba(0,0,0,.6);
+  color: rgba(0, 0, 0, 0.6);
   text-align: center;
   transition: background 0.25s;
 }
