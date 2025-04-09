@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { Avatar } from "@mui/material";
+import {
+  Avatar,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@mui/material";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Expense from "../components/Expense";
 import Transfer from "../components/Transfer";
 import Income from "../components/Income";
@@ -12,7 +18,8 @@ const Dashboard = () => {
     setTransactionType(type);
     setIsActive(type === 0 ? "expense" : type === 1 ? "transfer" : "income");
   };
-
+  //fix styling
+  //implement backend logic -- fetch data for accounts and transactions, logging in, logout, routing to correct pages, etc..
   return (
     <>
       <div className="welcome">
@@ -33,14 +40,18 @@ const Dashboard = () => {
             <div>Net Worth</div>
           </div>
           <div className="account_widget">
-            <div className="cash_account">
-              <p>Cash</p>
-              <p>Amount</p>
-            </div>
-            <div>
-              <div>test wallet</div>
-              <p>Amount</p>
-            </div>
+            <Accordion>
+              <AccordionSummary expandIcon={<ArrowDropDownIcon />}>
+                <div className="cash_account">
+                  <p>Cash</p>
+                  <p>Amount</p>
+                </div>
+              </AccordionSummary>
+              <AccordionDetails>
+                <div>test wallet</div>
+                <p>Amount</p>
+              </AccordionDetails>
+            </Accordion>
             <div className="bank_account">
               <p>Bank Account</p>
               <p>Amount</p>
@@ -93,11 +104,13 @@ const Dashboard = () => {
           <div className="section_header">
             <h3>Recent Transaction </h3>
           </div>
-          <div>
+          <div className="section_body">
             <div>
-              <p>Transaction 1</p>
+              <div>
+                <p>Date</p>
+                <p>Transaction</p>
+              </div>
               <p>Amount</p>
-              <p>Date</p>
             </div>
           </div>
         </div>
