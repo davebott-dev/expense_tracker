@@ -40,8 +40,12 @@ const Dashboard = () => {
             <div>Net Worth</div>
           </div>
           <div className="account_widget">
-            <Accordion>
-              <AccordionSummary expandIcon={<ArrowDropDownIcon />}>
+            <Accordion disableGutters elevation={0}>
+              <AccordionSummary
+                expandIcon={<ArrowDropDownIcon />}
+                sx={{ backgroundColor: "#f5f5f5", margin: 0 }}
+                className="accordion_summary"
+              >
                 <div className="cash_account">
                   <p>Cash</p>
                   <p>Amount</p>
@@ -52,16 +56,38 @@ const Dashboard = () => {
                 <p>Amount</p>
               </AccordionDetails>
             </Accordion>
-            <div className="bank_account">
-              <p>Bank Account</p>
-              <p>Amount</p>
-            </div>
-            <div></div>
-            <div className="credit_account">
-              <p>Credit Account</p>
-              <p>Amount</p>
-            </div>
-            <div></div>
+            <Accordion disableGutters elevation={0}>
+              <AccordionSummary
+                expandIcon={<ArrowDropDownIcon />}
+                sx={{ backgroundColor: "#f5f5f5", margin: 0 }}
+                className="accordion_summary"
+              >
+                <div className="bank_account">
+                  <p>Bank Account</p>
+                  <p>Amount</p>
+                </div>
+              </AccordionSummary>
+              <AccordionDetails>
+                <div>test </div>
+                <p>test</p>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion disableGutters elevation={0}>
+              <AccordionSummary
+                expandIcon={<ArrowDropDownIcon />}
+                sx={{ backgroundColor: "#f5f5f5", margin: 0 }}
+                className="accordion_summary"
+              >
+                <div className="credit_account">
+                  <p>Credit Account</p>
+                  <p>Amount</p>
+                </div>
+              </AccordionSummary>
+              <AccordionDetails>
+                <div>test </div>
+                <p>test</p>
+              </AccordionDetails>
+            </Accordion>
           </div>
         </div>
         <div>
