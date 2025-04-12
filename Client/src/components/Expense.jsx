@@ -12,8 +12,8 @@ const Expense = () => {
             </select>
           </div>
           <div className="expense_amount">
-            <label htmlFor="amount">Amount:</label>
-            <input type="number" id="amount" name="amount" required />
+            <label htmlFor="expense_amount">Amount:</label>
+            <input type="number" id="expense_amount" name="amount" required />
           </div>
         </div>
         <div>

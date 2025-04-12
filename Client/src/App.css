@@ -205,7 +205,6 @@ h3 {
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  align-self: flex-start;
   transition: background-color 0.3s ease;
 }
 
@@ -244,23 +243,17 @@ h3 {
 }
 .transfer form > div {
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
 }
-.transfer form > div:first-child, .transfer form > div:nth-child(2) {
+.transfer form > div:first-child, .transfer form > div:nth-child(2), .transfer form > div:nth-child(3) {
   display: flex;
   flex-direction: column;
 }
-.transfer form > div:nth-child(3)>div {
+ div.transfer > form > div:nth-child(3) > div {
   display: flex;
-  flex-direction: column;
+  flex-direction: column
 }
-.transfer form > div:nth-child(3) {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
 
-}
 .transfer button {
   background: #3f51b5;
   color: #fff;
@@ -288,12 +281,37 @@ input, select {
   border-radius: .28571429rem;
   padding: .67857143em 1em;
 }
-#amount {
-  width: 40%;
+
+#expense_amount {
+  width: 50%;
 }
 .expense_button {
   background: #3f51b5;
   color: #fff;
+}
+.transaction_form form {
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem 1.5rem;
+  gap: 1rem;
+}
+.transaction_form form >div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.transaction_form form button {
+  background: #3f51b5;
+  color: #fff;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.transaction_form form button:hover {
+  background: #303f9f;
 }
 nav {
   grid-column: 1;
