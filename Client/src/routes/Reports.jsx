@@ -1,13 +1,22 @@
 import {useState} from 'react';
+import {Avatar} from '@mui/material';
 
 const Index = ()=> {
     const [num,setNum] = useState(0);
 
     return (
         <>
-        <div>Hello World</div>
-        <div>{num}</div>
-        <button onClick={()=> setNum(prev=>prev+1)}>Increment</button>
+        <div className="welcome">
+        <Avatar sx={{ width: 55, height: 55 }}>DB</Avatar>
+        <div>
+          <div>Welcome to your account!</div>
+          <p>
+            You are now logged in. You can use the widgets on the side to enter
+            and track data.
+          </p>
+          <button>Logout</button>
+        </div>
+      </div>
         </>
     )
 }

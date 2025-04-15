@@ -18,8 +18,6 @@ const Dashboard = () => {
     setTransactionType(type);
     setIsActive(type === 0 ? "expense" : type === 1 ? "transfer" : "income");
   };
-  //fix styling
-  //implement backend logic -- fetch data for accounts and transactions, logging in, logout, routing to correct pages, etc..
   return (
     <>
       <div className="welcome">
