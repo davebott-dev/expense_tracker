@@ -18,22 +18,18 @@ const Index = ()=> {
       </div>
       <div className="account_widget">
         <div>
-          Export Data:
           <p>Export data to an excel file</p>
           <button>Export</button>
         </div>
         <div>
-          Import Data:
           <p>Import data from an excel file</p>
           <button>Import</button>
         </div>
         <div>
-          Delete Account:
           <p>Delete your account and all data</p>
           <button>Delete</button>
         </div>
         <div>
-          Change Password:
           <p>Change your password</p>
           <button>Change</button>
           </div>
@@ -41,7 +37,6 @@ const Index = ()=> {
           <hr style = {{border: "1px solid black", width: "100%"}}/>
 
           <div>
-            Change Theme:
             <p>Change the theme of the app</p>
             <button>{lightTheme? "Dark Mode": "Light Mode"}</button>
           </div>
