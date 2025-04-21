@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Avatar,
   Accordion,
@@ -13,6 +14,31 @@ import Income from "../components/Income";
 const Dashboard = () => {
   const [transactionType, setTransactionType] = useState(0);
   const [isActive, setIsActive] = useState("");
+  const [user, setUser] = useState([]);
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  
+  useEffect(()=> {
+    if (!token) {
+      navigate("/login");
+    } else {
+      const fetchData = async() => {
+        try {
+          const response = await fetch("http://localhost:5000/api/user", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const data = await response.json();
+          setUser(data);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
+    }
+  }, [token, navigate]);
 
   const handleTransactionTypeChange = (type) => {
     setTransactionType(type);

@@ -10,12 +10,17 @@ import Transactions from './routes/Transactions.jsx';
 import Reports from './routes/Reports.jsx';
 import Settings from './routes/Settings.jsx';
 import Budget from './routes/Budget.jsx';
+import Register from './routes/Register.jsx';
 import './App.css';
 
 const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />,
+  },
+  {
+    path: '/signup',
+    element: <Register />,
   },
   {
     path: '/',

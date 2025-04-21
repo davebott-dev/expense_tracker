@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import * as THREE from "three";
 import { Snackbar, Alert } from "@mui/material";
+import ThreeBackground from "../components/ThreeBackground";
 import "../App.css";
 
 const Login = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [open, setOpen] = useState(false);
-
 
 
     const handleClose = (event, reason) => {
@@ -46,18 +47,15 @@ return (
           Don't have an account?<Link to="/signup"> Sign up</Link>
         </span>
       </div>
-      <div>
-        <div className="grey one"></div>
+      <div >
+        <ThreeBackground/>
         <div className="title-card">
           <h1>Welcome to Expense Tracker!</h1>
           <p>The premier financial tracker for web users!</p>
         </div>
-        <div className="yellow two"></div>
-        <div className="grey three"></div>
-        <div className="yellow four"></div>
       </div>
     </div>
   );
 };
-
+//make threebackground work
 export default Login;
