@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import * as THREE from "three";
 import { Snackbar, Alert } from "@mui/material";
-import ThreeBackground from "../components/ThreeBackground";
+import BlobBackground from "../components/BlobBackground";
 import "../App.css";
 
 const Login = () => {
@@ -48,7 +47,7 @@ return (
         </span>
       </div>
       <div >
-        <ThreeBackground/>
+      <BlobBackground />
         <div className="title-card">
           <h1>Welcome to Expense Tracker!</h1>
           <p>The premier financial tracker for web users!</p>
@@ -57,5 +56,4 @@ return (
     </div>
   );
 };
-//make threebackground work
 export default Login;

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Snackbar, Alert } from "@mui/material";
+import BlobBackground from "../components/BlobBackground";
 import "../App.css";
 
 const Signup = () => {
@@ -96,6 +97,7 @@ const Signup = () => {
         </span>
       </div>
       <div>
+        <BlobBackground />
       <div className="title-card">
           <h1>Welcome to Expense Tracker!</h1>
           <p>The premier financial tracker for web users!</p>

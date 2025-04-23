@@ -398,6 +398,10 @@ body {
   align-items: center;
   padding: 1em;
 }
+#root > div > div:nth-child(2) {
+  height: 100%;
+  display: flex;
+}
 button {
   border-radius: 0.28571429rem;
   border: 1px solid transparent;
