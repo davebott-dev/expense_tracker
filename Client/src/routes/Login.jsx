@@ -4,10 +4,14 @@ import { Snackbar, Alert } from "@mui/material";
 import BlobBackground from "../components/BlobBackground";
 import "../App.css";
 
+// continue working on the login page
+
 const Login = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [open, setOpen] = useState(false);
+    const location = useLocation();
+    const navigate = useNavigate();
 
 
     const handleClose = (event, reason) => {
@@ -16,6 +20,37 @@ const Login = () => {
         }
         setOpen(false);
       };
+
+  const handleSubmit = async (e)=> {
+    e.preventDefault();
+    const username=  e.target.username.value;
+    const password=  e.target.password.value;
+    setLoading(true);
+
+    try {
+      const response = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+        setLoading(false);
+        navigate(`/${username}/dashboard`);
+      } else {
+        setLoading(false);
+        setError(data.error || "Login failed");
+        setOpen(true);
+      }
+    } catch (err) {
+      setLoading(false);
+      setError("An error occurred. Please try again.",err);
+      setOpen(true);
+    }
+  }
 
 return (
     <div className="pageCont">
