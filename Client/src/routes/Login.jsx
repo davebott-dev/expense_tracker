@@ -1,10 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Snackbar, Alert } from "@mui/material";
 import BlobBackground from "../components/BlobBackground";
 import "../App.css";
-
-// continue working on the login page
 
 const Login = () => {
     const [loading, setLoading] = useState(false);
@@ -12,6 +10,12 @@ const Login = () => {
     const [open, setOpen] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
+
+    useEffect(() => {
+      if (location.state?.showSuccessSnackbar) {
+        setOpen(true);
+      }
+    }, [location.state]);
 
 
     const handleClose = (event, reason) => {
@@ -28,7 +32,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/login", {
+      const response = await fetch("http://localhost:8080/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,6 +41,7 @@ const Login = () => {
       });
       const data = await response.json();
       if (response.ok) {
+        localStorage.removeItem("token");
         localStorage.setItem("token", data.token);
         setLoading(false);
         navigate(`/${username}/dashboard`);
@@ -56,7 +61,7 @@ return (
     <div className="pageCont">
       <div>
         <h2>Sign In</h2>
-        <form >
+        <form onSubmit ={handleSubmit} >
           <label htmlFor="username">Username</label>
           <input type="text" id="username" name="username" />
 

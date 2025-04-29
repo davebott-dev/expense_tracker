@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import {
   Avatar,
   Accordion,
@@ -14,31 +14,12 @@ import Income from "../components/Income";
 const Dashboard = () => {
   const [transactionType, setTransactionType] = useState(0);
   const [isActive, setIsActive] = useState("");
-  const [user, setUser] = useState([]);
-  const token = localStorage.getItem("token");
-  const navigate = useNavigate();
-  
-  useEffect(()=> {
-    if (!token) {
-      navigate("/login");
-    } else {
-      const fetchData = async() => {
-        try {
-          const response = await fetch("http://localhost:5000/api/user", {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          const data = await response.json();
-          setUser(data);
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        }
-      }
-    }
-  }, [token, navigate]);
+  const [user] = useOutletContext();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+  }
 
   const handleTransactionTypeChange = (type) => {
     setTransactionType(type);
@@ -47,14 +28,16 @@ const Dashboard = () => {
   return (
     <>
       <div className="welcome">
-        <Avatar sx={{ width: 55, height: 55 }}>DB</Avatar>
+        {user.name? <Avatar sx={{ width: 55, height: 55 }}>
+          {user.name.split(" ")[0][0] + user.name.split(" ")[1][0]}
+        </Avatar>: "loading"}
         <div>
           <div>Welcome to your account!</div>
           <p>
             You are now logged in. You can use the widgets on the side to enter
             and track data.
           </p>
-          <button>Logout</button>
+          <button onClick={handleLogout}>Logout</button>
         </div>
       </div>
       <div className="widgets">

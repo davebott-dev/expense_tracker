@@ -1,19 +1,28 @@
-import {useState} from 'react';
-import {Avatar} from '@mui/material';
+import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
+import { Avatar } from "@mui/material";
 
-const Index = ()=> {
+const Index = () => {
   const [lightTheme, setLightTheme] = useState(true);
-    return (
-        <>
-   <div className="welcome">
-        <Avatar sx={{ width: 55, height: 55 }}>DB</Avatar>
+  const [user] = useOutletContext();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+  };
+  return (
+    <>
+      <div className="welcome">
+      {user.name? <Avatar sx={{ width: 55, height: 55 }}>
+          {user.name.split(" ")[0][0] + user.name.split(" ")[1][0]}
+        </Avatar>: "loading"}
         <div>
           <div>Welcome to your account!</div>
           <p>
             You are now logged in. You can use the widgets on the side to enter
             and track data.
           </p>
-          <button>Logout</button>
+          <button onClick={handleLogout}>Logout</button>
         </div>
       </div>
       <div className="account_widget">
@@ -32,17 +41,17 @@ const Index = ()=> {
         <div>
           <p>Change your password</p>
           <button>Change</button>
-          </div>
+        </div>
 
-          <hr style = {{border: "1px solid black", width: "100%"}}/>
+        <hr style={{ border: "1px solid black", width: "100%" }} />
 
-          <div>
-            <p>Change the theme of the app</p>
-            <button>{lightTheme? "Dark Mode": "Light Mode"}</button>
-          </div>
+        <div>
+          <p>Change the theme of the app</p>
+          <button>{lightTheme ? "Dark Mode" : "Light Mode"}</button>
+        </div>
       </div>
-        </>
-    )
-}
+    </>
+  );
+};
 
 export default Index;

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import {
   Avatar,
   Table,
@@ -19,6 +20,7 @@ import {
 
 const Index = () => {
   const [open, setOpen] = useState(false);
+  const [user] = useOutletContext();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -28,17 +30,24 @@ const Index = () => {
     setOpen(false);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+  };
+
   return (
     <>
       <div className="welcome">
-        <Avatar sx={{ width: 55, height: 55 }}>DB</Avatar>
+      {user.name? <Avatar sx={{ width: 55, height: 55 }}>
+          {user.name.split(" ")[0][0] + user.name.split(" ")[1][0]}
+        </Avatar>: "loading"}
         <div>
           <div>Welcome to your account!</div>
           <p>
             You are now logged in. You can use the widgets on the side to enter
             and track data.
           </p>
-          <button>Logout</button>
+          <button onClick={handleLogout}>Logout</button>
         </div>
       </div>
 
@@ -51,14 +60,17 @@ const Index = () => {
           <Dialog
             open={open}
             onClose={handleClose}
-            slotProps={{ paper: { 
-                component: 'form',
+            slotProps={{
+              paper: {
+                component: "form",
                 onSubmit: (e) => {
                   e.preventDefault();
                   // Handle form submission logic here
                   console.log("Form submitted");
                   handleClose(); // Close the dialog after submission
-                } }}}
+                },
+              },
+            }}
           >
             <DialogTitle>Add Transaction</DialogTitle>
             <DialogContent>
@@ -100,8 +112,8 @@ const Index = () => {
               />
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose}>Cancel</Button>
-                <Button type="submit">Add</Button>
+              <Button onClick={handleClose}>Cancel</Button>
+              <Button type="submit">Add</Button>
             </DialogActions>
           </Dialog>
         </div>

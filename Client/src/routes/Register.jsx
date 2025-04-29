@@ -22,12 +22,12 @@ const Signup = () => {
     const email = e.target.email.value;
     const username = e.target.username.value;
     const password = e.target.password.value;
-    const confirmPassword = e.target.confirm-password.value;
+    const confirmPassword = e.target.confirmpassword.value;
     const name = e.target.name.value;
 
     if(password===confirmPassword) {    
     try {
-      const response = await fetch("http://localhost:8080/api/sign-up", {
+      const response = await fetch("http://localhost:8080/api/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -71,11 +71,11 @@ const Signup = () => {
           <label htmlFor="password">Password</label>
           <input type="password" id="password" name="password" />
 
-          <label htmlFor="confirm-password">Confirm Password</label>
+          <label htmlFor="confirmpassword">Confirm Password</label>
           <input
             type="password"
-            id="confirm-password"
-            name="confirm-password"
+            id="confirmpassword"
+            name="confirmpassword"
           />
 
           <button className="form-btn">Sign Up</button>

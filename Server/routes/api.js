@@ -38,7 +38,7 @@ router.post("/signup", controller.createUser);
 router.post("/login", async (req, res) => {
     const { username, password } = req.body;
     try {
-        const user = await prisma.user.findUnique({
+        const user = await prisma.user.findFirst({
             where: { username },
         });
         if (!user) {
@@ -56,7 +56,7 @@ router.post("/login", async (req, res) => {
         res.status(500).json({ success:false, error: 'Error logging in' });
     }
 });
-router.get("/:username/dashboard", passport.authenticate('jwt', { session: false }), controller.getUser);
+router.get("/user", passport.authenticate('jwt', { session: false }), controller.getUser);
 
 
 module.exports = router;
