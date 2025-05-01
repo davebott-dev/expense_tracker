@@ -21,6 +21,7 @@ model User {
   password    String
   createdAt   DateTime      @default(now())
   Transaction Transaction[]
+  Account     Account[]
 }
 
 model Transaction {
@@ -28,6 +29,17 @@ model Transaction {
   userId      String
   amount      Float
   description String?
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
+  date        DateTime @default(now())
+  type        String
+}
+
+model Account {
+  id          String   @id @default(uuid())
+  userId      String
+  accountType String
+  balance     Float
   createdAt   DateTime @default(now())
   user        User     @relation(fields: [userId], references: [id])
 }
