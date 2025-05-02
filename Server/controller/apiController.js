@@ -47,6 +47,34 @@ module.exports = {
             res.status(500).json({ error: 'Error fetching user' });
         }
     },
+    createTransaction: async(req,res)=> {
+        const { type, amount, date, description, categoryId, userId } = req.body;
+        try {
+            const transaction = await prisma.transaction.create({
+                data: {
+                    type,
+                    amount,
+                    date,
+                    description,
+                    categoryId,
+                    userId,
+                },
+            });
+            res.status(201).json({ success: true, message: 'Transaction created successfully', transaction });
+        } catch (error) {
+            res.status(500).json({ success: false, error: 'Error creating transaction' });
+        }
+    },
+    getTransactions: async (req, res) => {
+        try {
+            const transactions = await prisma.transaction.findMany({
+                where: { userId: req.user.id },
+                include: { category: true },
+            });
+            res.status(200).json(transactions);
+        } catch (error) {
+            res.status(500).json({ error: 'Error fetching transactions' });
+        }
 
 
 }
