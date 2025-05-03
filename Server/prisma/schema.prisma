@@ -37,6 +37,7 @@ model Transaction {
 
 model Account {
   id          String   @id @default(uuid())
+  name        String
   userId      String
   accountType String
   balance     Float

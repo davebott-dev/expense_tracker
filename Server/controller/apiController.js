@@ -37,6 +37,7 @@ module.exports = {
         try {
             const user = await prisma.user.findUnique({
                 where: { id: req.user.id },
+                include: { Transaction: true, Account: true },
             });
             if (user) {
                 res.status(200).json(user);
@@ -75,6 +76,27 @@ module.exports = {
         } catch (error) {
             res.status(500).json({ error: 'Error fetching transactions' });
         }
+    },
+    createAccount: async(req,res)=> {
+        const { name, group, balance, userId } = req.body;
 
+        const user = await prisma.user.findUnique({
+            where: {id: userId},
+        });
+        
+        try {
+            const account = await prisma.account.create({
+                data: {
+                    name,
+                    accountType: group,
+                    balance,
+                    userId,
+                },
+            });
+            res.status(201).json({ success: true, message: 'Account created successfully', account });
+        } catch (error) {
+            res.status(500).json({ success: false, error: 'Error creating account' });
+        }
+    }
 
 }

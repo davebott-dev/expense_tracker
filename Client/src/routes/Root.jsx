@@ -39,6 +39,35 @@ const Root = () => {
     }
   }, [token, navigate]);
 
+  console.log(user);
+
+  useEffect(()=> {
+    const path = window.location.pathname.split("/")[2];
+    setIsActive(path);
+    switch (path) {
+      case "dashboard":
+        setTitle("Dashboard");
+        break;
+      case "transactions":
+        setTitle("Transactions");
+        break;
+      case "accounts":
+        setTitle("Accounts");
+        break;
+      case "reports":
+        setTitle("Reports");
+        break;
+      case "budget":
+        setTitle("Budget");
+        break;
+      case "settings":
+        setTitle("Settings");
+        break;
+      default:
+        setTitle("Dashboard");
+    }
+  }, []);
+
   const handleTitleChange = (e) => {
     setTitle(e.target.innerText);
     setIsActive(e.target.innerText.toLowerCase());

@@ -57,6 +57,6 @@ router.post("/login", async (req, res) => {
     }
 });
 router.get("/user", passport.authenticate('jwt', { session: false }), controller.getUser);
-
+router.post("/createAccount", passport.authenticate('jwt',{session:false}), controller.createAccount);
 
 module.exports = router;

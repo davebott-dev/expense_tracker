@@ -12,13 +12,18 @@ import {
   DialogContent,
   DialogTitle,
   DialogContentText,
+  MenuItem
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
+//figure out the 500 internal server error
 const Index = () => {
   const [open, setOpen] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState("");
+  const [name, setName] = useState("");
+  const [balance, setBalance] = useState("");
   const [user] = useOutletContext();
+  const token = localStorage.getItem("token");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -32,14 +37,19 @@ const Index = () => {
     localStorage.removeItem("token");
     window.location.reload();
   };
+
   const groups = ["Cash", "Assets", "Credit", "Banking"];
 
   return (
     <>
       <div className="welcome">
-      {user.name? <Avatar sx={{ width: 55, height: 55 }}>
-          {user.name.split(" ")[0][0] + user.name.split(" ")[1][0]}
-        </Avatar>: "loading"}
+        {user.name ? (
+          <Avatar sx={{ width: 55, height: 55 }}>
+            {user.name.split(" ")[0][0] + user.name.split(" ")[1][0]}
+          </Avatar>
+        ) : (
+          "loading"
+        )}
         <div>
           <div>Welcome to your account!</div>
           <p>
@@ -63,9 +73,39 @@ const Index = () => {
               slotProps={{
                 paper: {
                   component: "form",
-                  onSubmit: (e) => {
+                  onSubmit: async (e) => {
                     e.preventDefault();
-                    console.log("Form submitted");
+                    const name = e.target.Name.value;
+                    const group = selectedGroup;
+                    const balance = e.target.Balance.value;
+                    const userId = user.id;
+
+                    try {
+                      const response = await fetch(
+                        "http://localhost:8080/api/createAccount",
+                        {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                          },
+                          body: JSON.stringify({
+                            name,
+                            group,
+                            balance,
+                            userId,
+                          }),
+                        }
+                      );
+                      const data = await response.json();
+                      if (response.ok) {
+                        console.log("Account created successfully:", data);
+                      } else {
+                        console.error("Error creating account:", data);
+                      }
+                    } catch (error) {
+                      console.error("Error creating account:", error);
+                    }
                     handleClose();
                   },
                 },
@@ -84,21 +124,23 @@ const Index = () => {
                   type="text"
                   fullWidth
                   variant="standard"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
                 <TextField
                   margin="dense"
                   id="Group"
                   label="Group"
-                  select
+                  select 
                   fullWidth
                   variant="standard"
                   value={selectedGroup}
                   onChange={(e) => setSelectedGroup(e.target.value)}
                 >
                   {groups.map((group) => (
-                    <option key={group} value={group}>
+                    <MenuItem key={group} value={group}>
                       {group}
-                    </option>
+                    </MenuItem>
                   ))}
                 </TextField>
                 <TextField
@@ -108,6 +150,8 @@ const Index = () => {
                   type="number"
                   fullWidth
                   variant="standard"
+                  value={balance}
+                  onChange={(e) => setBalance(e.target.value)}
                 />
               </DialogContent>
               <DialogActions>
