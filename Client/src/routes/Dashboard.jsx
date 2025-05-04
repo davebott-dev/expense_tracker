@@ -19,7 +19,7 @@ const Dashboard = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     window.location.reload();
-  }
+  };
 
   const handleTransactionTypeChange = (type) => {
     setTransactionType(type);
@@ -28,9 +28,13 @@ const Dashboard = () => {
   return (
     <>
       <div className="welcome">
-        {user.name? <Avatar sx={{ width: 55, height: 55 }}>
-          {user.name.split(" ")[0][0] + user.name.split(" ")[1][0]}
-        </Avatar>: "loading"}
+        {user.name ? (
+          <Avatar sx={{ width: 55, height: 55 }}>
+            {user.name.split(" ")[0][0] + user.name.split(" ")[1][0]}
+          </Avatar>
+        ) : (
+          "loading"
+        )}
         <div>
           <div>Welcome to your account!</div>
           <p>
@@ -44,7 +48,19 @@ const Dashboard = () => {
         <div>
           <div className="section_header">
             <h3>Net Worth </h3>
-            <div>Net Worth</div>
+            <div> $
+              {user.Account?.filter((el) => el.accountType == "Cash").reduce(
+                (accum, curr) => accum + curr.balance,
+                0
+              ) +
+                user.Account?.filter(
+                  (el) => el.accountType == "Banking"
+                ).reduce((accum, curr) => accum + curr.balance, 0) -
+                user.Account?.filter((el) => el.accountType == "Credit").reduce(
+                  (accum, curr) => accum + curr.balance,
+                  0
+                )}
+            </div>
           </div>
           <div className="account_widget">
             <Accordion disableGutters elevation={0}>
@@ -55,12 +71,28 @@ const Dashboard = () => {
               >
                 <div className="cash_account">
                   <p>Cash</p>
-                  <p>Amount</p>
+                  <p>
+                    {" "}
+                    $
+                    {user.Account?.filter(
+                      (el) => el.accountType == "Cash"
+                    ).reduce((accum, curr) => accum + curr.balance, 0)}
+                  </p>
                 </div>
               </AccordionSummary>
               <AccordionDetails>
-                <div>test wallet</div>
-                <p>Amount</p>
+                {user.Account?.filter((el) => el.accountType == "Cash").map(
+                  (account, index) => {
+                    return (
+                      <div key={index} className="account_details">
+                        <p>{account.name}</p>
+                        <strong>
+                          <p>${account.balance}</p>
+                        </strong>
+                      </div>
+                    );
+                  }
+                )}
               </AccordionDetails>
             </Accordion>
             <Accordion disableGutters elevation={0}>
@@ -71,12 +103,28 @@ const Dashboard = () => {
               >
                 <div className="bank_account">
                   <p>Bank Account</p>
-                  <p>Amount</p>
+                  <p>
+                    {" "}
+                    $
+                    {user.Account?.filter(
+                      (el) => el.accountType == "Banking"
+                    ).reduce((accum, curr) => accum + curr.balance, 0)}
+                  </p>
                 </div>
               </AccordionSummary>
               <AccordionDetails>
-                <div>test </div>
-                <p>test</p>
+                {user.Account?.filter((el) => el.accountType == "Banking").map(
+                  (account, index) => {
+                    return (
+                      <div key={index} className="account_details">
+                        <p>{account.name}</p>
+                        <strong>
+                          <p>${account.balance}</p>
+                        </strong>
+                      </div>
+                    );
+                  }
+                )}
               </AccordionDetails>
             </Accordion>
             <Accordion disableGutters elevation={0}>
@@ -87,12 +135,28 @@ const Dashboard = () => {
               >
                 <div className="credit_account">
                   <p>Credit Account</p>
-                  <p>Amount</p>
+                  <p>
+                    {" "}
+                    $
+                    {user.Account?.filter(
+                      (el) => el.accountType == "Credit"
+                    ).reduce((accum, curr) => accum + curr.balance, 0)}
+                  </p>
                 </div>
               </AccordionSummary>
               <AccordionDetails>
-                <div>test </div>
-                <p>test</p>
+                {user.Account?.filter((el) => el.accountType == "Credit").map(
+                  (account, index) => {
+                    return (
+                      <div key={index} className="account_details">
+                        <p>{account.name}</p>
+                        <strong>
+                          <p>${account.balance}</p>
+                        </strong>
+                      </div>
+                    );
+                  }
+                )}
               </AccordionDetails>
             </Accordion>
           </div>

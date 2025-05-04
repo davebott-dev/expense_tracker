@@ -31,7 +31,7 @@ model Transaction {
   description String?
   createdAt   DateTime @default(now())
   user        User     @relation(fields: [userId], references: [id])
-  date        DateTime @default(now())
+  date        String
   type        String
 }
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import {
   Avatar,
@@ -10,6 +10,7 @@ import {
   TableRow,
   Button,
   TextField,
+  MenuItem,
   Dialog,
   DialogActions,
   DialogContent,
@@ -20,7 +21,11 @@ import {
 
 const Index = () => {
   const [open, setOpen] = useState(false);
+  const [selectedGroup, setSelectedGroup] = useState("");
   const [user] = useOutletContext();
+  const [transactions, setTransactions] = useState(user.Transactions);
+  const groups = ["Expense", "Income", "Transfer"];
+  const token = localStorage.getItem("token");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -35,12 +40,44 @@ const Index = () => {
     window.location.reload();
   };
 
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8080/api/getTransactions",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        console.log(data.message);
+        if (response.ok) {
+          setTransactions(data.message);
+        } else {
+          console.error("Error fetching transactions:", data);
+        }
+      } catch (error) {
+        console.error("Error fetching transactions:", error);
+      }
+    };
+
+    fetchTransactions();
+  }, [token]);
+
   return (
     <>
       <div className="welcome">
-      {user.name? <Avatar sx={{ width: 55, height: 55 }}>
-          {user.name.split(" ")[0][0] + user.name.split(" ")[1][0]}
-        </Avatar>: "loading"}
+        {user.name ? (
+          <Avatar sx={{ width: 55, height: 55 }}>
+            {user.name.split(" ")[0][0] + user.name.split(" ")[1][0]}
+          </Avatar>
+        ) : (
+          "loading"
+        )}
         <div>
           <div>Welcome to your account!</div>
           <p>
@@ -63,11 +100,43 @@ const Index = () => {
             slotProps={{
               paper: {
                 component: "form",
-                onSubmit: (e) => {
+                onSubmit: async (e) => {
                   e.preventDefault();
-                  // Handle form submission logic here
-                  console.log("Form submitted");
-                  handleClose(); // Close the dialog after submission
+                  const description = e.target.description.value;
+                  const date = e.target.date.value;
+                  const amount = e.target.amount.value;
+                  const category = e.target.Category.value;
+
+                  try {
+                    const response = await fetch(
+                      "http://localhost:8080/api/createTransaction",
+                      {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                          Authorization: `Bearer ${token}`,
+                        },
+                        body: JSON.stringify({
+                          description,
+                          date,
+                          amount,
+                          category,
+                        }),
+                      }
+                    );
+                    const data = await response.json();
+                    if (response.ok) {
+                      if (data.success) {
+                        console.log("Transaction added successfully:", data);
+                        window.location.reload();
+                      }
+                    } else {
+                      console.error("Error adding transaction:", data);
+                    }
+                  } catch (error) {
+                    console.error("Error adding transaction:", error);
+                  }
+                  handleClose();
                 },
               },
             }}
@@ -81,6 +150,7 @@ const Index = () => {
                 autoFocus
                 margin="dense"
                 id="description"
+                name="description"
                 label="Transaction Description"
                 type="text"
                 fullWidth
@@ -90,6 +160,7 @@ const Index = () => {
                 margin="dense"
                 id="date"
                 label="Date"
+                name="date"
                 type="date"
                 fullWidth
                 variant="standard"
@@ -98,18 +169,28 @@ const Index = () => {
                 margin="dense"
                 id="amount"
                 label="Amount"
+                name="amount"
                 type="number"
                 fullWidth
                 variant="standard"
               />
               <TextField
                 margin="dense"
-                id="category"
+                id="Category"
                 label="Category"
-                type="text"
+                name="Category"
+                select
                 fullWidth
                 variant="standard"
-              />
+                value={selectedGroup}
+                onChange={(e) => setSelectedGroup(e.target.value)}
+              >
+                {groups.map((group) => (
+                  <MenuItem key={group} value={group}>
+                    {group}
+                  </MenuItem>
+                ))}
+              </TextField>
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose}>Cancel</Button>
@@ -127,12 +208,54 @@ const Index = () => {
                 <TableCell align="right">Category</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>{/* Add your transaction data here */}</TableBody>
+            <TableBody>
+              {transactions?.map((transaction, index) => {
+                return (
+                  <TableRow
+                    key={index}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {transaction.description}
+                    </TableCell>
+                    <TableCell align="right">{transaction.date}</TableCell>
+                    <TableCell align="right">${transaction.amount}</TableCell>
+                    <TableCell align="right">{transaction.type}</TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
           </Table>
         </TableContainer>
-        <div>Total Income:</div>
-        <div>Total Expense:</div>
-        <div>Net Income:</div>
+        <div>
+          Total Income: <strong>
+            $
+            {transactions
+              ?.filter((el) => el.type == "Income")
+              .reduce((accum, curr) => accum + curr.amount, 0)}
+          </strong>
+        </div>
+        <div>Total Expense: <strong>
+            $
+            {transactions
+              ?.filter((el) => el.type == "Expense")
+              .reduce((accum, curr) => accum + curr.amount, 0)}
+          </strong></div>
+        <div>Total Transfer: <strong>
+            $
+            {transactions
+              ?.filter((el) => el.type == "Transfer")
+              .reduce((accum, curr) => accum + curr.amount, 0)}
+          </strong></div>
+        <div>Net Income: <strong>
+          ${transactions
+                ?.filter((el) => el.type == "Income")
+                .reduce((accum, curr) => accum + curr.amount, 0) - transactions
+                ?.filter((el) => el.type == "Expense")
+                .reduce((accum, curr) => accum + curr.amount, 0) + transactions
+                ?.filter((el) => el.type == "Transfer")
+                .reduce((accum, curr) => accum + curr.amount, 0)}
+        </strong></div>
       </div>
     </>
   );

@@ -402,6 +402,11 @@ body {
   height: 100%;
   display: flex;
 }
+.account_details {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 button {
   border-radius: 0.28571429rem;
   border: 1px solid transparent;

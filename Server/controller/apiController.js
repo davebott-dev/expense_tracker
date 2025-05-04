@@ -49,16 +49,18 @@ module.exports = {
         }
     },
     createTransaction: async(req,res)=> {
-        const { type, amount, date, description, categoryId, userId } = req.body;
+        console.log("request body",req.body);
+        console.log("request user",req.user);
+        const { amount, date, description, category } = req.body;
+
         try {
             const transaction = await prisma.transaction.create({
                 data: {
-                    type,
-                    amount,
-                    date,
-                    description,
-                    categoryId,
-                    userId,
+                    type:category,
+                    amount: parseFloat(amount),
+                    date:date,
+                    description:description,
+                    userId: req.user.id,
                 },
             });
             res.status(201).json({ success: true, message: 'Transaction created successfully', transaction });
@@ -70,33 +72,30 @@ module.exports = {
         try {
             const transactions = await prisma.transaction.findMany({
                 where: { userId: req.user.id },
-                include: { category: true },
             });
-            res.status(200).json(transactions);
+            res.status(200).json({success:true, message: transactions});
         } catch (error) {
-            res.status(500).json({ error: 'Error fetching transactions' });
+            res.status(500).json({success:false, error: 'Error fetching transactions' });
         }
     },
     createAccount: async(req,res)=> {
-        const { name, group, balance, userId } = req.body;
+        console.log("request body",req.body);
+        console.log("request user",req.user);
+        const { name, group, balance } = req.body;
 
-        const user = await prisma.user.findUnique({
-            where: {id: userId},
-        });
-        
         try {
             const account = await prisma.account.create({
                 data: {
-                    name,
+                    name: name,
                     accountType: group,
-                    balance,
-                    userId,
+                    balance: parseFloat(balance),
+                    userId: req.user.id,
                 },
             });
             res.status(201).json({ success: true, message: 'Account created successfully', account });
         } catch (error) {
             res.status(500).json({ success: false, error: 'Error creating account' });
         }
-    }
+    },
 
 }

@@ -12,7 +12,7 @@ import {
   DialogContent,
   DialogTitle,
   DialogContentText,
-  MenuItem
+  MenuItem,
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
@@ -78,7 +78,6 @@ const Index = () => {
                     const name = e.target.Name.value;
                     const group = selectedGroup;
                     const balance = e.target.Balance.value;
-                    const userId = user.id;
 
                     try {
                       const response = await fetch(
@@ -93,13 +92,15 @@ const Index = () => {
                             name,
                             group,
                             balance,
-                            userId,
                           }),
                         }
                       );
                       const data = await response.json();
                       if (response.ok) {
-                        console.log("Account created successfully:", data);
+                        if (data.success) {
+                          console.log("Account created successfully:", data);
+                          window.location.reload();
+                        }
                       } else {
                         console.error("Error creating account:", data);
                       }
@@ -121,6 +122,7 @@ const Index = () => {
                   margin="dense"
                   id="Name"
                   label="Name"
+                  name="Name"
                   type="text"
                   fullWidth
                   variant="standard"
@@ -131,7 +133,7 @@ const Index = () => {
                   margin="dense"
                   id="Group"
                   label="Group"
-                  select 
+                  select
                   fullWidth
                   variant="standard"
                   value={selectedGroup}
@@ -146,6 +148,7 @@ const Index = () => {
                 <TextField
                   margin="dense"
                   id="Balance"
+                  name="Balance"
                   label="Balance"
                   type="number"
                   fullWidth
@@ -170,12 +173,27 @@ const Index = () => {
             >
               <div className="cash_account">
                 <p>Cash</p>
-                <p>Amount</p>
+                <p>
+                  $
+                  {user.Account?.filter(
+                    (el) => el.accountType == "Cash"
+                  ).reduce((accum, curr) => accum + curr.balance, 0)}
+                </p>
               </div>
             </AccordionSummary>
             <AccordionDetails>
-              <div>test wallet</div>
-              <p>Amount</p>
+              {user.Account?.filter((el) => el.accountType == "Cash").map(
+                (account, index) => {
+                  return (
+                    <div key={index} className="account_details">
+                      <p>{account.name}</p>
+                      <strong>
+                        <p>${account.balance}</p>
+                      </strong>
+                    </div>
+                  );
+                }
+              )}
             </AccordionDetails>
           </Accordion>
           <Accordion disableGutters elevation={0}>
@@ -186,12 +204,27 @@ const Index = () => {
             >
               <div className="bank_account">
                 <p>Assets</p>
-                <p>Amount</p>
+                <p>
+                  $
+                  {user.Account?.filter(
+                    (el) => el.accountType == "Assets"
+                  ).reduce((accum, curr) => accum + curr.balance, 0)}
+                </p>
               </div>
             </AccordionSummary>
             <AccordionDetails>
-              <div>test </div>
-              <p>test</p>
+              {user.Account?.filter((el) => el.accountType == "Assets").map(
+                (account, index) => {
+                  return (
+                    <div key={index} className="account_details">
+                      <p>{account.name}</p>
+                      <strong>
+                        <p>${account.balance}</p>
+                      </strong>
+                    </div>
+                  );
+                }
+              )}
             </AccordionDetails>
           </Accordion>
           <Accordion disableGutters elevation={0}>
@@ -202,12 +235,27 @@ const Index = () => {
             >
               <div className="credit_account">
                 <p>Credit</p>
-                <p>Amount</p>
+                <p>
+                  $
+                  {user.Account?.filter(
+                    (el) => el.accountType == "Credit"
+                  ).reduce((accum, curr) => accum + curr.balance, 0)}
+                </p>
               </div>
             </AccordionSummary>
             <AccordionDetails>
-              <div>test </div>
-              <p>test</p>
+              {user.Account?.filter((el) => el.accountType == "Credit").map(
+                (account, index) => {
+                  return (
+                    <div key={index} className="account_details">
+                      <p>{account.name}</p>
+                      <strong>
+                        <p>${account.balance}</p>
+                      </strong>
+                    </div>
+                  );
+                }
+              )}
             </AccordionDetails>
           </Accordion>
           <Accordion disableGutters elevation={0}>
@@ -218,12 +266,27 @@ const Index = () => {
             >
               <div className="credit_account">
                 <p>Banking Account</p>
-                <p>Amount</p>
+                <p>
+                  $
+                  {user.Account?.filter(
+                    (el) => el.accountType == "Banking"
+                  ).reduce((accum, curr) => accum + curr.balance, 0)}
+                </p>
               </div>
             </AccordionSummary>
             <AccordionDetails>
-              <div>test </div>
-              <p>test</p>
+              {user.Account?.filter((el) => el.accountType == "Banking").map(
+                (account, index) => {
+                  return (
+                    <div key={index} className="account_details">
+                      <p>{account.name}</p>
+                      <strong>
+                        <p>${account.balance}</p>
+                      </strong>
+                    </div>
+                  );
+                }
+              )}
             </AccordionDetails>
           </Accordion>
         </div>
