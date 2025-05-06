@@ -19,6 +19,9 @@ import {
   Paper,
 } from "@mui/material";
 
+//add a "from" and "to" field to the transaction form if the type is transfer
+// add only a "from" field to the transaction form if the type is expense
+// add only a "to" field to the transaction form if the type is income
 const Index = () => {
   const [open, setOpen] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState("");
@@ -191,6 +194,82 @@ const Index = () => {
                   </MenuItem>
                 ))}
               </TextField>
+              {selectedGroup === "Transfer" && (
+                <TextField
+                  margin="dense"
+                  id="fromAccount"
+                  label="From Account"
+                  name="fromAccount"
+                  select
+                  fullWidth
+                  variant="standard"
+                >
+                  {user.Account?.map((account, index) => {
+                    return (
+                      <MenuItem key={index} value={account.name}>
+                        {account.name}
+                      </MenuItem>
+                    );
+                  })}
+                </TextField>
+              )}
+              {selectedGroup === "Transfer" && (
+                <TextField
+                  margin="dense"
+                  id="toAccount"
+                  label="To Account"
+                  name="toAccount"
+                  select
+                  fullWidth
+                  variant="standard"
+                >
+                  {user.Account?.map((account, index) => {
+                    return (
+                      <MenuItem key={index} value={account.name}>
+                        {account.name}
+                      </MenuItem>
+                    );
+                  })}
+                </TextField>
+              )}
+              {selectedGroup === "Expense" && (
+                <TextField
+                  margin="dense"
+                  id="fromAccount"
+                  label="From Account"
+                  name="fromAccount"
+                  select
+                  fullWidth
+                  variant="standard"
+                >
+                  {user.Account?.map((account, index) => {
+                    return (
+                      <MenuItem key={index} value={account.name}>
+                        {account.name}
+                      </MenuItem>
+                    );
+                  })}
+                </TextField>
+              )}
+              {selectedGroup === "Income" && (
+                <TextField
+                  margin="dense"
+                  id="toAccount"
+                  label="To Account"
+                  name="toAccount"
+                  select
+                  fullWidth
+                  variant="standard"
+                >
+                  {user.Account?.map((account, index) => {
+                    return (
+                      <MenuItem key={index} value={account.name}>
+                        {account.name}
+                      </MenuItem>
+                    );
+                  })}
+                </TextField>
+              )}
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose}>Cancel</Button>
@@ -228,37 +307,53 @@ const Index = () => {
           </Table>
         </TableContainer>
         <div>
-          Total Income: <strong>
+          Total Income:{" "}
+          <strong>
             $
             {transactions
               ?.filter((el) => el.type == "Income")
               .reduce((accum, curr) => accum + curr.amount, 0)}
           </strong>
         </div>
-        <div>Total Expense: <strong>
+        <div>
+          Total Expense:{" "}
+          <strong>
             $
             {transactions
               ?.filter((el) => el.type == "Expense")
               .reduce((accum, curr) => accum + curr.amount, 0)}
-          </strong></div>
-        <div>Total Transfer: <strong>
+          </strong>
+        </div>
+        <div>
+          Total Transfer:{" "}
+          <strong>
             $
             {transactions
               ?.filter((el) => el.type == "Transfer")
               .reduce((accum, curr) => accum + curr.amount, 0)}
-          </strong></div>
-        <div>Net Income: <strong>
-          ${transactions
-                ?.filter((el) => el.type == "Income")
-                .reduce((accum, curr) => accum + curr.amount, 0) - transactions
+          </strong>
+        </div>
+        <div>
+          Net Income:{" "}
+          <strong>
+            $
+            {transactions
+              ?.filter((el) => el.type == "Income")
+              .reduce((accum, curr) => accum + curr.amount, 0) -
+              transactions
                 ?.filter((el) => el.type == "Expense")
-                .reduce((accum, curr) => accum + curr.amount, 0) + transactions
+                .reduce((accum, curr) => accum + curr.amount, 0) +
+              transactions
                 ?.filter((el) => el.type == "Transfer")
                 .reduce((accum, curr) => accum + curr.amount, 0)}
-        </strong></div>
+          </strong>
+        </div>
       </div>
     </>
   );
 };
 
 export default Index;
+
+//add column to show to and from accounts and add buttons to delete and edit transactions
+//delete data from database and update prisma schema to include to and from accounts...then update dashboard
