@@ -25,6 +25,7 @@ const Dashboard = () => {
     setTransactionType(type);
     setIsActive(type === 0 ? "expense" : type === 1 ? "transfer" : "income");
   };
+  //fix transaction form in the dashboard?
   return (
     <>
       <div className="welcome">

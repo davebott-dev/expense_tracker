@@ -16,7 +16,6 @@ import {
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
-//figure out the 500 internal server error
 const Index = () => {
   const [open, setOpen] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState("");
