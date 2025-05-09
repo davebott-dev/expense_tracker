@@ -1,14 +1,20 @@
-const Expense = () => {
+const Expense = ({data}) => {
   return (
     <div className="expense">
       <form className="expense_form">
         <div>
           <div>
-            <label htmlFor="from">From:</label>
-            <select id="from" name="from_account">
-              <option value="account1">Account 1</option>
-              <option value="account2">Account 2</option>
-              <option value="account3">Account 3</option>
+          <label htmlFor="accounts">From Account:</label>
+            <select name = "from_account" id="from_accounts" required>
+                {data.accounts?.length>0 ? data.accounts?.map((account,index)=> {
+                    return (
+                        <option key={index} value={account._id}>
+                            {account.name}
+                        </option>
+                    )
+                }): (
+                    <option value="none">No accounts available</option>
+                )}
             </select>
           </div>
           <div className="expense_amount">

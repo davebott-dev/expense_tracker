@@ -17,7 +17,10 @@ import {
   DialogTitle,
   DialogContentText,
   Paper,
+  IconButton,
 } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 //add a "from" and "to" field to the transaction form if the type is transfer
 // add only a "from" field to the transaction form if the type is expense
@@ -285,6 +288,8 @@ const Index = () => {
                 <TableCell align="right">Date</TableCell>
                 <TableCell align="right">Amount</TableCell>
                 <TableCell align="right">Category</TableCell>
+                <TableCell align="right">Path</TableCell>
+                <TableCell align='right'>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -300,6 +305,26 @@ const Index = () => {
                     <TableCell align="right">{transaction.date}</TableCell>
                     <TableCell align="right">${transaction.amount}</TableCell>
                     <TableCell align="right">{transaction.type}</TableCell>
+                    <TableCell align="right">
+                      {transaction.type == "Transfer" ? (
+                        <span>
+                          {transaction.fromAccount} to {transaction.toAccount}
+                        </span>
+                      ) : transaction.type == "Expense" ? (
+                        <span>{transaction.fromAccount}</span>
+                      ) : (
+                        <span>{transaction.toAccount}</span>
+                      )}
+                    </TableCell>
+                    <TableCell align="right">
+                      <IconButton aria-label="delete" size="small">
+                        <DeleteIcon fontSize="inherit" />
+                      </IconButton>
+                      <IconButton aria-label="edit" size="small">
+                        <EditIcon fontSize="inherit" />
+                      </IconButton>
+                    </TableCell>
+
                   </TableRow>
                 );
               })}
@@ -355,5 +380,4 @@ const Index = () => {
 
 export default Index;
 
-//add column to show to and from accounts and add buttons to delete and edit transactions
 //delete data from database and update prisma schema to include to and from accounts...then update dashboard

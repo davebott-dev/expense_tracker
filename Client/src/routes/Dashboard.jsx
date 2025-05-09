@@ -190,13 +190,13 @@ const Dashboard = () => {
                   Income
                 </div>
               </div>
-              {transactionType === 0 && <Expense />}
+              {transactionType === 0 && <Expense data= {user}/>}
               {transactionType === 1 && (
-                <Transfer>
+                <Transfer data= {user}>
                   <p>Note: Make sure to select the correct accounts.</p>
                 </Transfer>
               )}
-              {transactionType === 2 && <Income />}
+              {transactionType === 2 && <Income data= {user}/>}
             </div>
           </div>
           <div className="section_header">
@@ -205,10 +205,10 @@ const Dashboard = () => {
           <div className="section_body">
             <div>
               <div>
-                <p>Date</p>
-                <p>Transaction</p>
+                <p>{user.Transaction&&user?.Transaction[user.Transaction?.length-1].date}</p>
+                <p>{user.Transaction&&user?.Transaction[user.Transaction?.length-1].type}</p>
               </div>
-              <p>Amount</p>
+              <p>${user.Transaction&&user?.Transaction[user.Transaction?.length-1].amount}</p>
             </div>
           </div>
         </div>

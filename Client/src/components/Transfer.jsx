@@ -1,23 +1,33 @@
-const Transfer = ({ children }) => {
+const Transfer = ({ data,children }) => {
     return (
         <div className="transfer">
         <form>
-            <div>
-                <label htmlFor="fromAccount">From Account:</label>
-                <select id="fromAccount" name="fromAccount">
-                <option value="account1">Account 1</option>
-                <option value="account2">Account 2</option>
-                <option value="account3">Account 3</option>
-                </select>
-            </div>
+        <label htmlFor="from_account">From Account:</label>
+            <select name = "from_account" id="from_account" required>
+                {data.accounts?.length>0 ? data.accounts?.map((account,index)=> {
+                    return (
+                        <option key={index} value={account._id}>
+                            {account.name}
+                        </option>
+                    )
+                }): (
+                    <option value="none">No accounts available</option>
+                )}
+            </select>
     
             <div>
-                <label htmlFor="toAccount">To Account:</label>
-                <select id="toAccount" name="toAccount">
-                <option value="account1">Account 1</option>
-                <option value="account2">Account 2</option>
-                <option value="account3">Account 3</option>
-                </select>
+            <label htmlFor="to_account">To Account:</label>
+            <select name = "to_account" id="to_account" required>
+                {data.accounts?.length>0 ? data.accounts?.map((account,index)=> {
+                    return (
+                        <option key={index} value={account._id}>
+                            {account.name}
+                        </option>
+                    )
+                }): (
+                    <option value="none">No accounts available</option>
+                )}
+            </select>
             </div>
     
             <div>

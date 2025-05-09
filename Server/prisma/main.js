@@ -1,0 +1,1 @@
+//create a prisma function to delete all data in database then add new columns to the prisma schema
