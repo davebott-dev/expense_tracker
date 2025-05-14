@@ -205,10 +205,10 @@ const Dashboard = () => {
           <div className="section_body">
             <div>
               <div>
-                <p>{user.Transaction&&user?.Transaction[user.Transaction?.length-1].date}</p>
-                <p>{user.Transaction&&user?.Transaction[user.Transaction?.length-1].type}</p>
+                <p>{user.Transaction&&user?.Transaction[user.Transaction?.length-1]?.date}</p>
+                <p>{user.Transaction&&user?.Transaction[user.Transaction?.length-1]?.type}</p>
               </div>
-              <p>${user.Transaction&&user?.Transaction[user.Transaction?.length-1].amount}</p>
+              <p>${user.Transaction&&user?.Transaction[user.Transaction?.length-1]?.amount}</p>
             </div>
           </div>
         </div>

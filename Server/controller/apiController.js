@@ -51,7 +51,7 @@ module.exports = {
     createTransaction: async(req,res)=> {
         console.log("request body",req.body);
         console.log("request user",req.user);
-        const { amount, date, description, category } = req.body;
+        const { amount, date, description, category, fromAccount, toAccount } = req.body;
 
         try {
             const transaction = await prisma.transaction.create({
@@ -61,6 +61,8 @@ module.exports = {
                     date:date,
                     description:description,
                     userId: req.user.id,
+                    fromAccount: fromAccount,
+                    toAccount: toAccount,
                 },
             });
             res.status(201).json({ success: true, message: 'Transaction created successfully', transaction });
@@ -97,5 +99,17 @@ module.exports = {
             res.status(500).json({ success: false, error: 'Error creating account' });
         }
     },
+    deleteTransaction: async (req, res) => {
+        const { transactionId } = req.params;
+        console.log(transactionId);
+        try {
+            const transaction = await prisma.transaction.delete({
+                where: { id: transactionId },
+            });
+            res.status(200).json({ success: true, message: 'Transaction deleted successfully', transaction });
+        } catch (error) {
+            res.status(500).json({ success: false, error: 'Error deleting transaction' });
+        }
+    }
 
 }

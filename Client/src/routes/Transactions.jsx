@@ -46,6 +46,33 @@ const Index = () => {
     window.location.reload();
   };
 
+  const handleDelete = async (id) => {
+    
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/${id}/delete`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        console.log("Transaction deleted successfully:", data);
+        setTransactions((prev) =>
+          prev.filter((transaction) => transaction.id !== id)
+        );
+      } else {
+        console.error("Error deleting transaction:", data);
+      }
+    } catch (error) {
+      console.error("Error deleting transaction:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
@@ -112,6 +139,8 @@ const Index = () => {
                   const date = e.target.date.value;
                   const amount = e.target.amount.value;
                   const category = e.target.Category.value;
+                  const fromAccount = e.target.fromAccount?.value;
+                  const toAccount = e.target.toAccount?.value;
 
                   try {
                     const response = await fetch(
@@ -127,6 +156,8 @@ const Index = () => {
                           date,
                           amount,
                           category,
+                          fromAccount,
+                          toAccount,
                         }),
                       }
                     );
@@ -311,19 +342,27 @@ const Index = () => {
                           {transaction.fromAccount} to {transaction.toAccount}
                         </span>
                       ) : transaction.type == "Expense" ? (
-                        <span>{transaction.fromAccount}</span>
+                        <span>from {transaction.fromAccount}</span>
                       ) : (
-                        <span>{transaction.toAccount}</span>
+                        <span> to {transaction.toAccount}</span>
                       )}
                     </TableCell>
-                    <TableCell align="right">
-                      <IconButton aria-label="delete" size="small">
-                        <DeleteIcon fontSize="inherit" />
-                      </IconButton>
-                      <IconButton aria-label="edit" size="small">
-                        <EditIcon fontSize="inherit" />
-                      </IconButton>
-                    </TableCell>
+                   
+                      <TableCell align="right">
+                         <div className="action_buttons">
+            
+                            <button className="delete_button" type="button" onClick={() => handleDelete(transaction.id)}>
+                              <IconButton aria-label="delete" size="small">
+                                <DeleteIcon fontSize="inherit" />
+                              </IconButton>
+                            </button>
+        
+                          <IconButton aria-label="edit" size="small">
+                            <EditIcon fontSize="inherit" />
+                          </IconButton>
+                        </div>
+                      </TableCell>
+                    
 
                   </TableRow>
                 );

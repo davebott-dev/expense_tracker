@@ -24,6 +24,9 @@ model User {
   Account     Account[]
 }
 
+// make account name unique and add a default value
+// make accounts update balance on transaction
+
 model Transaction {
   id          String   @id @default(uuid())
   userId      String
@@ -33,6 +36,8 @@ model Transaction {
   user        User     @relation(fields: [userId], references: [id])
   date        String
   type        String
+  fromAccount String?
+  toAccount   String?
 }
 
 model Account {

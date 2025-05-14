@@ -426,7 +426,16 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
-
+.action_buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.delete_button {
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
