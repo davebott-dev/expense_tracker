@@ -101,7 +101,6 @@ module.exports = {
     },
     deleteTransaction: async (req, res) => {
         const { transactionId } = req.params;
-        console.log(transactionId);
         try {
             const transaction = await prisma.transaction.delete({
                 where: { id: transactionId },

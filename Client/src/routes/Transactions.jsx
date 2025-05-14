@@ -22,9 +22,6 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
-//add a "from" and "to" field to the transaction form if the type is transfer
-// add only a "from" field to the transaction form if the type is expense
-// add only a "to" field to the transaction form if the type is income
 const Index = () => {
   const [open, setOpen] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState("");
@@ -419,4 +416,4 @@ const Index = () => {
 
 export default Index;
 
-//delete data from database and update prisma schema to include to and from accounts...then update dashboard
+// add edit funcationality

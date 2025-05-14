@@ -30,3 +30,5 @@ const Index = () => {
 };
 
 export default Index;
+
+//add budget components 
