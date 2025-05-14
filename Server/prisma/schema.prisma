@@ -26,6 +26,7 @@ model User {
 
 // make account name unique and add a default value
 // make accounts update balance on transaction
+// add a transaction type enum
 
 model Transaction {
   id          String   @id @default(uuid())
