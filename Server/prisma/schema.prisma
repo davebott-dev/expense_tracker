@@ -24,9 +24,8 @@ model User {
   Account     Account[]
 }
 
-// make account name unique and add a default value
 // make accounts update balance on transaction
-// add a transaction type enum
+// migrate existing data to new schema
 
 model Transaction {
   id          String   @id @default(uuid())
@@ -43,10 +42,16 @@ model Transaction {
 
 model Account {
   id          String   @id @default(uuid())
-  name        String
+  name        String   @unique @default("Main Account")
   userId      String
   accountType String
-  balance     Float
+  balance     Float    @default(0)
   createdAt   DateTime @default(now())
   user        User     @relation(fields: [userId], references: [id])
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+  TRANSFER
 }
