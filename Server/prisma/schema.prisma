@@ -28,14 +28,14 @@ model User {
 // migrate existing data to new schema
 
 model Transaction {
-  id          String   @id @default(uuid())
+  id          String          @id @default(uuid())
   userId      String
   amount      Float
   description String?
-  createdAt   DateTime @default(now())
-  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime        @default(now())
+  user        User            @relation(fields: [userId], references: [id])
   date        String
-  type        String
+  type        TransactionType
   fromAccount String?
   toAccount   String?
 }
