@@ -80,25 +80,46 @@ module.exports = {
       });
 
       // fix this to update based on transaction type
-    //   const updateFromAccount = await prisma.account.update({
-    //     where: { id: fromAccount },
-    //     data: {
-    //       balance: {
-    //         decrement: parseFloat(amount),
-    //       },
-    //     },
-    //   })
-    //     const updateToAccount = await prisma.account.update({
-    //         where: { id: toAccount },
-    //         data: {
-    //         balance: {
-    //             increment: parseFloat(amount),
-    //         },
-    //         },
-    //     });
-    //     console.log("updateFromAccount", updateFromAccount);
-    //     console.log("updateToAccount", updateToAccount);
-    //     console.log("transaction", transaction);
+      if (category == "Income") {
+        const updateAccount = await prisma.account.update({
+          where: { id: toAccount },
+          data: {
+            balance: {
+              increment: parseFloat(amount),
+            },
+          },
+        });
+      }
+      //test if this works
+        // if (category == "Expense") {
+        //     const updateAccount = await prisma.account.update({
+        //     where: { id: fromAccount },
+        //     data: {
+        //         balance: {
+        //         decrement: parseFloat(amount),
+        //         },
+        //     },
+        //     });
+        // }
+        // if (category == "Transfer") {
+        //     const updateFromAccount = await prisma.account.update({
+        //         where: { id: fromAccount },
+        //         data: {
+        //         balance: {
+        //             decrement: parseFloat(amount),
+        //         },
+        //         },
+        //     });
+        //     const updateToAccount = await prisma.account.update({
+        //         where: { id: toAccount },
+        //         data: {
+        //         balance: {
+        //             increment: parseFloat(amount),
+        //         },
+        //         },
+        //     });
+        // }
+
 
       res
         .status(201)
