@@ -334,11 +334,11 @@ const Index = () => {
                     <TableCell align="right">${transaction.amount}</TableCell>
                     <TableCell align="right">{transaction.type}</TableCell>
                     <TableCell align="right">
-                      {transaction.type == "Transfer" ? (
+                      {transaction.type == "TRANSFER" ? (
                         <span>
                           {transaction.fromAccount} to {transaction.toAccount}
                         </span>
-                      ) : transaction.type == "Expense" ? (
+                      ) : transaction.type == "EXPENSE" ? (
                         <span>from {transaction.fromAccount}</span>
                       ) : (
                         <span> to {transaction.toAccount}</span>
@@ -372,7 +372,7 @@ const Index = () => {
           <strong>
             $
             {transactions
-              ?.filter((el) => el.type == "Income")
+              ?.filter((el) => el.type == "INCOME")
               .reduce((accum, curr) => accum + curr.amount, 0)}
           </strong>
         </div>
@@ -381,7 +381,7 @@ const Index = () => {
           <strong>
             $
             {transactions
-              ?.filter((el) => el.type == "Expense")
+              ?.filter((el) => el.type == "EXPENSE")
               .reduce((accum, curr) => accum + curr.amount, 0)}
           </strong>
         </div>
@@ -390,7 +390,7 @@ const Index = () => {
           <strong>
             $
             {transactions
-              ?.filter((el) => el.type == "Transfer")
+              ?.filter((el) => el.type == "TRANSFER")
               .reduce((accum, curr) => accum + curr.amount, 0)}
           </strong>
         </div>
@@ -399,13 +399,13 @@ const Index = () => {
           <strong>
             $
             {transactions
-              ?.filter((el) => el.type == "Income")
+              ?.filter((el) => el.type == "INCOME")
               .reduce((accum, curr) => accum + curr.amount, 0) -
               transactions
-                ?.filter((el) => el.type == "Expense")
+                ?.filter((el) => el.type == "EXPENSE")
                 .reduce((accum, curr) => accum + curr.amount, 0) +
               transactions
-                ?.filter((el) => el.type == "Transfer")
+                ?.filter((el) => el.type == "TRANSFER")
                 .reduce((accum, curr) => accum + curr.amount, 0)}
           </strong>
         </div>

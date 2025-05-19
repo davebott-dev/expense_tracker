@@ -1,4 +1,5 @@
 const Transfer = ({ data,children }) => {
+    //fix transfer
     return (
         <div className="transfer">
         <form>

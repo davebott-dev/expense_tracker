@@ -1,11 +1,50 @@
 const Income = ({data}) => {
-    console.log(data);
+      const token = localStorage.getItem("token");
+        const handleSubmit = async (e) => {
+    e.preventDefault();
+    const description = e.target.description.value;
+    const date = e.target.date.value;
+    const amount = e.target.amount.value;
+    const category = "Income";
+    const toAccount = e.target.to_account?.value;
+
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/createTransaction",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            description,
+            date,
+            amount,
+            category,
+            toAccount,
+          }),
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        if (data.success) {
+          console.log("Transaction added successfully:", data);
+          window.location.reload();
+        }
+      } else {
+        console.error("Error adding transaction:", data);
+      }
+    } catch (error) {
+      console.error("Error adding transaction:", error);
+    }
+  };
     return (
         <div className="transaction_form">
-        <form>
+        <form className="income_form" onSubmit={handleSubmit}>
             <div>
-                <label htmlFor="source">Source:</label>
-                <input type="text" id="source" name="source" required />
+                <label htmlFor="description">Description:</label>
+                <input type="text" id="description" name="description" required />
             </div>
             
             <div>
@@ -15,9 +54,9 @@ const Income = ({data}) => {
 
             <label htmlFor="accounts">To Account:</label>
             <select name = "to_account" id="accounts" required>
-                {data.accounts?.length>0 ? data.accounts?.map((account,index)=> {
+                {data.Account?.length>0 ? data.Account?.map((account,index)=> {
                     return (
-                        <option key={index} value={account._id}>
+                        <option key={index} value={account.name}>
                             {account.name}
                         </option>
                     )

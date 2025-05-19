@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { PrismaClient } = require("@prisma/client");
+const { PrismaClient, TransactionType } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -79,47 +79,42 @@ module.exports = {
         },
       });
 
-      // fix this to update based on transaction type
       if (category == "Income") {
         const updateAccount = await prisma.account.update({
-          where: { id: toAccount },
+          where: { name: toAccount },
           data: {
             balance: {
               increment: parseFloat(amount),
             },
           },
         });
-      }
-      //test if this works
-        // if (category == "Expense") {
-        //     const updateAccount = await prisma.account.update({
-        //     where: { id: fromAccount },
-        //     data: {
-        //         balance: {
-        //         decrement: parseFloat(amount),
-        //         },
-        //     },
-        //     });
-        // }
-        // if (category == "Transfer") {
-        //     const updateFromAccount = await prisma.account.update({
-        //         where: { id: fromAccount },
-        //         data: {
-        //         balance: {
-        //             decrement: parseFloat(amount),
-        //         },
-        //         },
-        //     });
-        //     const updateToAccount = await prisma.account.update({
-        //         where: { id: toAccount },
-        //         data: {
-        //         balance: {
-        //             increment: parseFloat(amount),
-        //         },
-        //         },
-        //     });
-        // }
-
+      } else if (category == "Expense") {
+            const updateAccount = await prisma.account.update({
+            where: { name: fromAccount },
+            data: {
+                balance: {
+                decrement: parseFloat(amount),
+                },
+            },
+            });
+        } else if (category == "Transfer") {
+            const updateFromAccount = await prisma.account.update({
+                where: { name: fromAccount },
+                data: {
+                balance: {
+                    decrement: parseFloat(amount),
+                },
+                },
+            });
+            const updateToAccount = await prisma.account.update({
+                where: { name: toAccount },
+                data: {
+                balance: {
+                    increment: parseFloat(amount),
+                },
+                },
+            });
+        }
 
       res
         .status(201)

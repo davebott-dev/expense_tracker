@@ -24,9 +24,7 @@ model User {
   Account     Account[]
 }
 
-// make accounts update balance on transaction
-// migrate existing data to new schema
-
+//refactor the transaction model to relate to and from accounts
 model Transaction {
   id          String          @id @default(uuid())
   userId      String
