@@ -55,3 +55,5 @@ const Index = () => {
 };
 
 export default Index;
+
+// make settings page functional
