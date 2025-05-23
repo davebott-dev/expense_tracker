@@ -185,4 +185,24 @@ module.exports = {
         .json({ success: false, error: "Error deleting transaction" });
     }
   },
+  deleteUser: async(req,res) => {
+    console.log(user?.id);
+    const {userId} = req.params;
+    try {
+      const user = await prisma.user.delete({
+        where: { id: userId },
+      });
+      res
+        .status(200)
+        .json({
+          success: true,
+          message: "User deleted successfully",
+          user,
+        });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ success: false, error: "Error deleting user" });
+    }
+  }
 };

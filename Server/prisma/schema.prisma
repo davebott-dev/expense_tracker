@@ -24,14 +24,14 @@ model User {
   Account     Account[]
 }
 
-//refactor the transaction model to relate to and from accounts
+//migrate
 model Transaction {
   id          String          @id @default(uuid())
   userId      String
   amount      Float
   description String?
   createdAt   DateTime        @default(now())
-  user        User            @relation(fields: [userId], references: [id])
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   date        String
   type        TransactionType
   fromAccount String?
@@ -45,7 +45,7 @@ model Account {
   accountType String
   balance     Float    @default(0)
   createdAt   DateTime @default(now())
-  user        User     @relation(fields: [userId], references: [id])
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum TransactionType {

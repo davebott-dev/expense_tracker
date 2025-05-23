@@ -61,5 +61,6 @@ router.post("/createAccount", passport.authenticate('jwt',{session:false}), cont
 router.post("/createTransaction", passport.authenticate('jwt',{session:false}), controller.createTransaction);
 router.get("/getTransactions", passport.authenticate('jwt',{session:false}), controller.getTransactions);
 router.post("/:transactionId/delete", passport.authenticate('jwt',{session:false}), controller.deleteTransaction);
+router.post("/:userId/delete", passport.authenticate('jwt',{session:false}), controller.deleteUser);
 
 module.exports = router;

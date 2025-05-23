@@ -5,11 +5,40 @@ import { Avatar } from "@mui/material";
 const Index = () => {
   const [lightTheme, setLightTheme] = useState(true);
   const [user] = useOutletContext();
+  const token = localStorage.getItem("token");
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     window.location.reload();
   };
+// figure out why this is not working
+  const handleUserDelete = async() => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete your account? This action cannot be undone."
+    );
+    if(confirmDelete) {
+      try{
+    const response = await fetch(`http://localhost:8080/api/${user.id}/delete`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    if (data.success) {
+      alert("Account deleted successfully");
+      localStorage.removeItem("token");
+      window.location.reload();
+    }
+    else {
+      alert("Error deleting account");
+    }
+      } catch (error) {
+        console.error("Error deleting user:", error);
+      }
+    }
+  }
   return (
     <>
       <div className="welcome">
@@ -36,7 +65,7 @@ const Index = () => {
         </div>
         <div>
           <p>Delete your account and all data</p>
-          <button>Delete</button>
+          <button onClick={handleUserDelete}>Delete</button>
         </div>
         <div>
           <p>Change your password</p>
