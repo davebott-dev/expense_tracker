@@ -22,7 +22,7 @@ Chart.register(
   Tooltip,
   Legend
 );
-
+// set this up to show user data 
 const Index = () => {
   const data = {
     labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -56,6 +56,8 @@ const Index = () => {
     },
   };
   const [user] = useOutletContext();
+  const [transaction, setTransaction] = useState([]);
+  const token = localStorage.getItem("token");
 
   const handleLogout = () => {
     localStorage.removeItem("token");
