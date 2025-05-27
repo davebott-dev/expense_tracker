@@ -186,7 +186,6 @@ module.exports = {
     }
   },
   deleteUser: async(req,res) => {
-    console.log(user?.id);
     const {userId} = req.params;
     try {
       const user = await prisma.user.delete({

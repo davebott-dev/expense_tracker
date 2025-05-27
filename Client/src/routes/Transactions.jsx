@@ -47,7 +47,7 @@ const Index = () => {
     
     try {
       const response = await fetch(
-        `http://localhost:8080/api/${id}/delete`,
+        `http://localhost:8080/api/${id}/delete-transaction`,
         {
           method: "POST",
           headers: {

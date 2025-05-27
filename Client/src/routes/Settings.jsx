@@ -11,14 +11,14 @@ const Index = () => {
     localStorage.removeItem("token");
     window.location.reload();
   };
-// figure out why this is not working
-  const handleUserDelete = async() => {
+
+  const handleUserDelete = async(id) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete your account? This action cannot be undone."
     );
     if(confirmDelete) {
       try{
-    const response = await fetch(`http://localhost:8080/api/${user.id}/delete`, {
+    const response = await fetch(`http://localhost:8080/api/${id}/delete-user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -65,7 +65,7 @@ const Index = () => {
         </div>
         <div>
           <p>Delete your account and all data</p>
-          <button onClick={handleUserDelete}>Delete</button>
+          <button onClick={()=>handleUserDelete(user.id)}>Delete</button>
         </div>
         <div>
           <p>Change your password</p>
