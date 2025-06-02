@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import {
   Chart,
@@ -22,69 +22,136 @@ Chart.register(
   Tooltip,
   Legend
 );
-// set this up to show user data 
+// set this up to show user data
 const Index = () => {
-  const data = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
-    datasets: [
-      {
-        label: "Expenses",
-        data: [65, 59, 80, 81, 56, 55, 40],
-        fill: false,
-        backgroundColor: "rgb(75, 192, 192)",
-        borderColor: "rgba(75, 192, 192, 0.2)",
-      },
-      {
-        label: "Income",
-        data: [28, 48, 40, 19, 86, 27, 90],
-        fill: false,
-        backgroundColor: "rgb(153, 102, 255)",
-        borderColor: "rgba(153, 102, 255, 0.2)",
-      },
-    ],
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: "top",
-        },
-        title: {
-          display: true,
-          text: "User Expenses & Income Over Time",
-        },
-      },
-    },
-  };
   const [user] = useOutletContext();
-  const [transaction, setTransaction] = useState([]);
+  const [transactions, setTransactions] = useState([]);
+  const [chartData, setChartData] = useState(null);
   const token = localStorage.getItem("token");
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     window.location.reload();
-  }
+  };
+
+  useEffect(() => {
+    if (transactions.length === 0) return;
+    const incomeByMonth = new Array(12).fill(0);
+    const expensesByMonth = new Array(12).fill(0);
+
+    transactions.forEach((transaction) => {
+      const date = new Date(transaction.date);
+      const month = date.getMonth();
+      if (transaction.type === "income") {
+        incomeByMonth[month] += transaction.amount;
+      } else if (transaction.type === "expense") {
+        expensesByMonth[month] += transaction.amount;
+      }
+    });
+    const labels = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    setChartData({
+      labels,
+      datasets: [
+        {
+          label: "Income",
+          data: incomeByMonth,
+          borderColor: "rgba(75, 192, 192, 1)",
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          fill: true,
+        },
+        {
+          label: "Expenses",
+          data: expensesByMonth,
+          borderColor: "rgba(255, 99, 132, 1)",
+          backgroundColor: "rgba(255, 99, 132, 0.2)",
+          fill: true,
+        },
+      ],
+    });
+  }, [transactions]);
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8080/api/getTransactions",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        console.log(data.message);
+        if (response.ok) {
+          setTransactions(data.message);
+        } else {
+          console.error("Error fetching transactions:", data);
+        }
+      } catch (error) {
+        console.error("Error fetching transactions:", error);
+      }
+    };
+
+    fetchTransactions();
+  }, [token, transactions.length]);
 
   return (
     <>
       <div className="welcome">
-      {user.name? <Avatar sx={{ width: 55, height: 55 }}>
-          {user.name.split(" ")[0][0] + user.name.split(" ")[1][0]}
-        </Avatar>: "loading"}
+        {user.name ? (
+          <Avatar sx={{ width: 55, height: 55 }}>
+            {user.name.split(" ")[0][0] + user.name.split(" ")[1][0]}
+          </Avatar>
+        ) : (
+          "loading"
+        )}
         <div>
           <div>Welcome to your account!</div>
           <p>
             You are now logged in. You can use the widgets on the side to enter
             and track data.
           </p>
-          <button onClick = {handleLogout}>Logout</button>
+          <button onClick={handleLogout}>Logout</button>
         </div>
       </div>
 
-      <Line data={data} options={data.options} />
+      {chartData ? (
+        <Line
+          data={{ labels: chartData.labels, datasets: chartData.datasets }}
+          options={{
+            responsive: true,
+            plugins: {
+              legend: {
+                position: "top",
+              },
+              title: {
+                display: true,
+                text: "Monthly Income and Expenses",
+              },
+            },
+          }}
+        />
+      ) : (
+        <p>Loading chart...</p>
+      )}
     </>
   );
 };
 
 export default Index;
-
-// make chart show user data
