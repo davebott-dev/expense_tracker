@@ -29,6 +29,34 @@ const Index = () => {
   const [chartData, setChartData] = useState(null);
   const token = localStorage.getItem("token");
 
+    useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8080/api/getTransactions",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        console.log("transactions",data.message);
+        if (response.ok) {
+          setTransactions( data.message);
+        } else {
+          console.error("Error fetching transactions:", data);
+        }
+      } catch (error) {
+        console.error("Error fetching transactions:", error);
+      }
+    };
+
+    fetchTransactions();
+  }, [token]);
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     window.location.reload();
@@ -39,12 +67,14 @@ const Index = () => {
     const incomeByMonth = new Array(12).fill(0);
     const expensesByMonth = new Array(12).fill(0);
 
-    transactions.forEach((transaction) => {
+    transactions?.forEach((transaction) => {
+      if(!transaction.date) return;
       const date = new Date(transaction.date);
+      if(isNaN(date)) return;
       const month = date.getMonth();
-      if (transaction.type === "income") {
+      if (transaction.type.toLowerCase() === "income") {
         incomeByMonth[month] += transaction.amount;
-      } else if (transaction.type === "expense") {
+      } else if (transaction.type.toLowerCase() === "expense") {
         expensesByMonth[month] += transaction.amount;
       }
     });
@@ -83,33 +113,6 @@ const Index = () => {
       ],
     });
   }, [transactions]);
-  useEffect(() => {
-    const fetchTransactions = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:8080/api/getTransactions",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const data = await response.json();
-        console.log(data.message);
-        if (response.ok) {
-          setTransactions(data.message);
-        } else {
-          console.error("Error fetching transactions:", data);
-        }
-      } catch (error) {
-        console.error("Error fetching transactions:", error);
-      }
-    };
-
-    fetchTransactions();
-  }, [token, transactions.length]);
 
   return (
     <>
